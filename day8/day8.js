@@ -35,7 +35,7 @@ fetch('day8/day8_input.txt')
     });
     if (layerFewestZeros) {
         const theLayer = layers[layerFewestZeros];
-        console.log(howManyNdigits(theLayer, 1), howManyNdigits(theLayer, 2), howManyNdigits(theLayer, 1) * howManyNdigits(theLayer, 2));
+        console.log('part one', howManyNdigits(theLayer, 1) * howManyNdigits(theLayer, 2));
     }
     const length = pictureSize.wide * pictureSize.tall;
     let output = '2'.repeat(length);
@@ -56,6 +56,7 @@ fetch('day8/day8_input.txt')
     for (let i = 0; i < pictureSize.tall; i++) {
         massageArray.push(massage.substr(i * pictureSize.wide, pictureSize.wide));
     }
+    console.log('part two:');
     massageArray.forEach(line => {
         console.log(line.split('').map((h) => +h === 0 ? ' ' : +h === 1 ? '|' : '*').join(''));
     });
