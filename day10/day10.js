@@ -7,7 +7,6 @@ fetch('day10/day10_input.txt')
     // asteroids dictionary
     const asteroids = {};
     asteroidMap.forEach((row, y) => row.forEach((col, x) => col === '#' ? asteroids[[x, y].join('-')] = 0 : null));
-    console.log(asteroids);
     for (const station in asteroids) {
         if (asteroids.hasOwnProperty(station)) {
             for (const asteroid in asteroids) {
@@ -28,7 +27,7 @@ fetch('day10/day10_input.txt')
             theBest.asteroid = asteroid;
         }
     }
-    console.log(theBest);
+    console.log('part 1', theBest);
     delete asteroids[theBest.asteroid];
     const shootingOrder = [];
     for (const asteroid in asteroids) {
@@ -46,12 +45,14 @@ fetch('day10/day10_input.txt')
         }
         else if (a[0] - b[0] === 0) {
             // dystans od laseru jest mniejszy od dystansu od laser najlepszego zwroc minus jeden 
-            const aDistance = getDistance(theBest.asteroid, /* a[1].toString() */ a.join('-'));
-            const bDistance = getDistance(theBest.asteroid, /* b[1].toString() */ b.join('-'));
+            const aDistance = getDistance(theBest.asteroid, a[1]);
+            const bDistance = getDistance(theBest.asteroid, b[1]);
             return aDistance > bDistance ? 1 : -1;
         }
+        else {
+            return 0;
+        }
     });
-    console.log('shooting order:', shootingOrder[0]);
     startShooting(shootingOrder, 0);
 });
 const startShooting = (shootingOrder, counter = 0) => {
@@ -59,7 +60,7 @@ const startShooting = (shootingOrder, counter = 0) => {
     for (let i = 0; i < shootingOrder.length; i++) {
         counter++;
         if (counter === 200) {
-            console.log(shootingOrder[i][1]);
+            console.log('part 2: ', shootingOrder[i][1]);
         }
         // console.log(counter, shootingOrder[i][1])
         shootingOrder.splice(i, 1);
