@@ -2,25 +2,30 @@ import { intComputer } from './../IC/intcodeComputer.js';
 
 fetch('src/day2/day2_input.txt')
     .then( response => response.text() )
-    .then( text => {
-        const program = text.split(',').map( n=>+n)
-        program[1] = 12
-        program[2] = 2
-        return program
-    })
-    .then( program1202 => intComputer(program1202) )
-    .then( gravityAssist => {
-        while(!gravityAssist.isFinished()) {
-            gravityAssist.nextStep()
+    .then( text => text.split(',').map( n=>+n) )
+    .then( programArr => {
+        console.log('part 1', gravityAssist(12,2,programArr))
+        for (let noun = 0 ; noun < 100 ; noun++) {
+            for (let verb = 0 ; verb < 100 ; verb++) {
+                if ( gravityAssist(noun, verb, programArr) === 19690720) {
+                    console.log('part 2', 100 * noun + verb)
+                    break
+                }
+            }
         }
-        gravityAssist.printFirstElement()
+    } )
+
+
+const gravityAssist = (noun: number, verb: number, program: number[]) => {
+    // const pr = [program[0], noun, verb, ...program.slice(3)]
+    const newProgram = program.map( (el, i) => {
+        if (i === 1) return noun
+        if (i === 2) return verb
+        return el
     })
-
-// const test = [1,0,0,0,99]
-
-// const i = intComputer(test)
-
-// while(!i.isFinished()) {
-//     i.nextStep()
-// }
-// i.printFirstElement()
+    const computer = intComputer(newProgram)
+    while(!computer.isFinished()) {
+        computer.nextStep()
+    }
+    return computer.getFirstElement()
+}
